@@ -92,7 +92,6 @@ class SPLAY_TREE(BST):
             self.set_parent(None, self._root.left)
         else:
             left = self._root.left
-            left.parent = None # detach left child
             self.set_parent(None, self._root.right)
             self.search(key)
             assert self._root.left is None
