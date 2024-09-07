@@ -1,5 +1,6 @@
 from BST import BST
 from BST import Node
+from AVL import AVL_TREE, AVL_Node
 
 # Tests for BST
 bst = BST()
@@ -46,3 +47,14 @@ def accumulate(x):
     accumulator += str(x.key)
 bst.trav_mid(accumulate)
 assert accumulator == ''
+
+avl = AVL_TREE()
+avl.insert(AVL_Node('g'))
+avl.insert(AVL_Node('e'))
+avl.insert(AVL_Node('r'))
+avl.insert(AVL_Node('b'))
+avl.insert(AVL_Node('n'))
+avl.insert(AVL_Node('y'))
+avl.insert(AVL_Node('k'))
+
+avl.remove('y')

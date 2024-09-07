@@ -14,6 +14,9 @@ class Node:
         self.right = right
         self.parent = parent
     
+    def __repr__(self) -> str:
+        return '[ ' + str(self.key) + ' ]'
+    
     @property
     def successor(self):
         if self.right:
@@ -88,36 +91,34 @@ class BST:
             parent.right = child
 
     def insert(self, new_node: Node):
-        self.check_tree()
         node = self.search(new_node.key)
         if node:
             return node
         self.set_parent(self._hot, new_node)
-        self.check_tree()
         return new_node
+
+    def remove_at(self, node: Node):
+        self._hot = node.parent
+        succ = None 
+
+        direction = None if node.parent is None else DIRECTION.LEFT \
+            if node.parent.left == node else DIRECTION.RIGHT
+        
+        if node.left is None:
+            self.set_parent(node.parent, node.right, direction)
+        elif node.right is None:
+            self.set_parent(node.parent, node.left, direction)
+        else:
+            succ = node.successor
+            node.key, succ.key = succ.key, node.key
+            self.remove_at(succ)
     
     def remove(self, key):
-        def remove_at(node: Node):
-            self.check_tree()
-            succ = None 
-
-            direction = None if node.parent is None else DIRECTION.LEFT \
-                if node.parent.left == node else DIRECTION.RIGHT
-            
-            if node.left is None:
-                self.set_parent(node.parent, node.right, direction)
-            elif node.right is None:
-                self.set_parent(node.parent, node.left, direction)
-            else:
-                succ = node.successor
-                node.key, succ.key = succ.key, node.key
-                remove_at(succ)
-            self.check_tree()
-
         node = self.search(key)
         if not node:
-            return
-        remove_at(node)
+            return False
+        self.remove_at(node)
+        return True
 
     def check_at(self, node):
         if node is None:
