@@ -59,7 +59,6 @@ class SPLAY_TREE(BST):
         return self._root
 
     def insert(self, new_node: Node):
-        self.check_tree() 
         if self._root is None:
             self._root = new_node
             return self._root
@@ -84,7 +83,6 @@ class SPLAY_TREE(BST):
         return self._root
     
     def remove(self, key):
-        self.check_tree() 
         if self._root is None or key != self.search(key).key:
             return False
         
@@ -97,6 +95,7 @@ class SPLAY_TREE(BST):
             left.parent = None # detach left child
             self.set_parent(None, self._root.right)
             self.search(key)
+            assert self._root.left is None
 
             self.set_parent(self._root, left)
             

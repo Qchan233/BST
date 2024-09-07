@@ -6,7 +6,7 @@ import random
 avl = AVL_TREE()
 
 for i in range(10000):
-    random_int = random.randint(1, 100)
+    random_int = random.randint(1, 60)
     if i % 2 == 0:
         avl.insert(AVL_Node(random_int))
     else:
@@ -16,7 +16,7 @@ for i in range(10000):
 splay = SPLAY_TREE()
 
 for i in range(10000):
-    random_int = random.randint(1, 100)
+    random_int = random.randint(1, 60)
     if i % 2 == 0:
         splay.insert(AVL_Node(random_int))
     else:

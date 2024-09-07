@@ -89,7 +89,6 @@ class AVL_TREE(BST):
                 connect34(g, p, v, g.left, p.left, v.left, v.right)
     
     def insert(self, new_node: AVL_Node):
-        self.check_tree()
         super().insert(new_node)
         g = self._hot
         while g is not None:
@@ -104,7 +103,6 @@ class AVL_TREE(BST):
         return new_node
     
     def remove(self, key):
-        self.check_tree()
         result = super().remove(key) 
         if not result:
             return False
