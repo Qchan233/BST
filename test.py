@@ -58,3 +58,4 @@ avl.insert(AVL_Node('y'))
 avl.insert(AVL_Node('k'))
 
 avl.remove('y')
+avl.remove('g')

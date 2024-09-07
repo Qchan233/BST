@@ -24,7 +24,7 @@ def taller_child(node):
     elif height(node.left) < height(node.right):
         return node.right
     else:
-        return node.left if is_left_child(node) else node.right
+        return node.left if node.is_left_child() else node.right
 
 def connect34(
     a, b,c,

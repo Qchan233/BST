@@ -16,6 +16,12 @@ class Node:
     
     def __repr__(self) -> str:
         return '[ ' + str(self.key) + ' ]'
+
+    def is_left_child(node):
+        return node.parent.left == node
+    
+    def is_right_child(node):
+        return node.parent.right == node
     
     @property
     def successor(self):
