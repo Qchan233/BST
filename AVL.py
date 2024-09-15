@@ -115,3 +115,17 @@ class AVL_TREE(BST):
 
         self.check_tree()
         return True
+
+if __name__ == '__main__':
+    avl = AVL_TREE()
+    avl.insert(AVL_Node('g'))
+    avl.insert(AVL_Node('e'))
+    avl.insert(AVL_Node('r'))
+    avl.insert(AVL_Node('b'))
+    avl.insert(AVL_Node('n'))
+    avl.insert(AVL_Node('y'))
+    avl.insert(AVL_Node('k'))
+
+    avl.remove('y')
+    avl.remove('g')
+    print('Passed')
