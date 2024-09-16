@@ -13,16 +13,16 @@ class Node:
         self.left = left
         self.right = right
         self.parent = parent
-    
+
     def __repr__(self) -> str:
         return '[ ' + str(self.key) + ' ]'
 
     def is_left_child(node):
         return node.parent.left == node
-    
+
     def is_right_child(node):
         return node.parent.right == node
-    
+
     @property
     def successor(self):
         if self.right:
@@ -33,19 +33,18 @@ class Node:
         else:
             return None
 
-
 class BST:
     def __init__(self, node: Node = None) -> None:
         self._root = node
         self._hot = None
-    
+
     def trav_pre(self, fn):
         stack = []
         if self._root:
             stack.append(self._root)
 
         while stack:
-            x = stack.pop() 
+            x = stack.pop()
             fn(x)
             if x.right:
                 stack.append(x.right)
@@ -78,11 +77,11 @@ class BST:
 
             return search_at(node.left if key < node.key else node.right, key)
 
-        self._hot = None 
+        self._hot = None
         return search_at(self._root, key)
 
     def set_parent(self, parent: Node, child: Node, direction: Optional[DIRECTION] = None):
-        if child: 
+        if child:
             child.parent = parent
         if parent is None:
             self._root = child
@@ -105,20 +104,23 @@ class BST:
 
     def remove_at(self, node: Node):
         self._hot = node.parent
-        succ = None 
+        succ = None
 
         direction = None if node.parent is None else DIRECTION.LEFT \
             if node.parent.left == node else DIRECTION.RIGHT
-        
+
         if node.left is None:
+            succ = node.right
             self.set_parent(node.parent, node.right, direction)
         elif node.right is None:
+            succ = node.left
             self.set_parent(node.parent, node.left, direction)
         else:
             succ = node.successor
             node.key, succ.key = succ.key, node.key
-            self.remove_at(succ)
-    
+            return self.remove_at(succ)
+        return succ
+
     def remove(self, key):
         node = self.search(key)
         if not node:
@@ -140,7 +142,7 @@ class BST:
         if node.parent:
             assert node.parent.left == node or node.parent.right == node
 
-    def check_tree(self): 
+    def check_tree(self):
         self.trav_pre(self.check_at)
 
 if __name__ == '__main__':

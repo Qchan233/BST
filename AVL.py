@@ -12,12 +12,6 @@ def update_height_above(node):
         update_height(node)
         node = node.parent
 
-def is_left_child(node):
-    return node.parent.left == node
-
-def is_right_child(node):
-    return node.parent.left == node
-
 def taller_child(node):
     if height(node.left) > height(node.right):
         return node.left
@@ -73,21 +67,21 @@ class AVL_TREE(BST):
     def rotate_at(self, v: Node):
         p = v.parent
         g = p.parent
-        if is_left_child(p):
-            if is_left_child(v):
+        if p.is_left_child():
+            if v.is_left_child():
                 self.set_parent(g.parent, p, None)
-                connect34(v, p, g, v.left, v.right, p.right, g.right)
+                return connect34(v, p, g, v.left, v.right, p.right, g.right)
             else:
                 self.set_parent(g.parent, v, None)
-                connect34(p, v, g, p.left, v.left, v.right, g.right)
+                return connect34(p, v, g, p.left, v.left, v.right, g.right)
         else:
-            if is_left_child(v):
+            if v.is_left_child():
                 self.set_parent(g.parent, v, None)
-                connect34(g, v, p, g.left, v.left, v.right, p.right)
+                return connect34(g, v, p, g.left, v.left, v.right, p.right)
             else:
                 self.set_parent(g.parent, p, None)
-                connect34(g, p, v, g.left, p.left, v.left, v.right)
-    
+                return connect34(g, p, v, g.left, p.left, v.left, v.right)
+
     def insert(self, new_node: AVL_Node):
         super().insert(new_node)
         g = self._hot
@@ -98,18 +92,18 @@ class AVL_TREE(BST):
             else:
                 update_height(g)
             g = g.parent
-        
+
         self.check_tree()
         return new_node
-    
+
     def remove(self, key):
-        result = super().remove(key) 
+        result = super().remove(key)
         if not result:
             return False
         g = self._hot
         while g is not None:
             if not avl_balance(g):
-                self.rotate_at(taller_child(taller_child(g)))
+                g = self.rotate_at(taller_child(taller_child(g)))
             update_height(g)
             g = g.parent
 

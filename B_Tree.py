@@ -10,7 +10,7 @@ class B_Node:
             self.keys = []
             self.parent = None
             self.children = [None]
-    
+
     def __repr__(self):
         return "".join(str(self.keys))
 
@@ -24,21 +24,21 @@ class B_Tree:
         def trav_pre_at(node):
             if node is None:
                 return
-            fn(node) 
+            fn(node)
             for child in node.children:
                 trav_pre_at(child)
-        
+
         trav_pre_at(self._root)
 
-    def check_tree(self): 
+    def check_tree(self):
         self.trav_pre(self.check_at)
 
     def check_at(self, node):
         if not self._root.keys:
-            return 
+            return
         assert len(node.keys) + 1 == len(node.children)
         assert len(node.children) >= self.min_degree
-        assert len(node.children) <= self.max_degree 
+        assert len(node.children) <= self.max_degree
         if node.parent:
             assert node in node.parent.children
         if node.children[0]:
@@ -47,16 +47,16 @@ class B_Tree:
 
     def search(self, key):
         v = self._root
-        self._hot = None 
+        self._hot = None
         while v:
             r = bisect.bisect_right(v.keys, key)
-            if r > 0 and key == v.keys[r - 1]: 
+            if r > 0 and key == v.keys[r - 1]:
                 return v
             self._hot = v
             v = v.children[r]
-        
+
         return None
-    
+
 
     def insert(self, key):
         v = self.search(key)
@@ -68,7 +68,7 @@ class B_Tree:
         self.solve_overflow(self._hot)
         self.check_tree()
         return True
-    
+
     def solve_overflow(self, v):
         if len(v.children) <= self.max_degree:
             return
@@ -84,20 +84,20 @@ class B_Tree:
         if u.children[0]:
             for child in u.children:
                 child.parent = u
-        
+
         p = v.parent
         if p is None:
             p = self._root = B_Node()
-            p.children[0] = v 
+            p.children[0] = v
             v.parent = p
-        
+
         r = bisect.bisect_right(p.keys, v.keys[0])
         p.keys.insert(r, mid_key)
         p.children.insert(r+1, u)
         u.parent = p
 
-        self.solve_overflow(p) 
-    
+        self.solve_overflow(p)
+
     def remove(self, key: B_Node):
         v = self.search(key)
         if v is None:
@@ -144,7 +144,7 @@ class B_Tree:
         if r < len(p.children) - 1:
             rs = p.children[r + 1]
             if len(rs.children) > self.min_degree:
-                v.keys.append(p.keys[r])                
+                v.keys.append(p.keys[r])
                 p.keys[r] = rs.keys.pop(0)
                 v.children.append(rs.children.pop(0))
                 if v.children[-1]:
