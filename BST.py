@@ -37,6 +37,19 @@ class BST:
     def __init__(self, node: Node = None) -> None:
         self._root = node
         self._hot = None
+    
+    def visualize(self):
+        from Pretty_Printer import VNode
+        def create_vtree(node):
+            if node is None:
+                return VNode('B')
+            v = VNode(str(node))
+            v.left = create_vtree(node.left)
+            v.right = create_vtree(node.right)
+            return v        
+        
+        t = create_vtree(self._root)
+        t.prettyPrint()
 
     def trav_pre(self, fn):
         stack = []

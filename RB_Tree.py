@@ -61,6 +61,9 @@ class RB_Node(Node):
         color_str = '🔴' if self.color == Color.RED else '⚫'
         return color_str + str(self.key)
 
+    def __str__(self) -> str:
+        return 'R' if self.color == Color.RED else 'B'
+
 class RB_Tree(BST):
     def check_at(self, node):
         super().check_at(node)
@@ -195,9 +198,11 @@ class RB_Tree(BST):
 if __name__ == '__main__':
     import random
     rbt = RB_Tree()
-    for i in range(100000):
+    for i in range(20):
         random_int = random.randint(1, 200)
         if i % 2 == 0:
             rbt.insert(random_int)
         else:
             rbt.remove(random_int)
+    
+    rbt.visualize()
